@@ -1,0 +1,119 @@
+from collections import defaultdict
+
+from rest_framework import viewsets, permissions
+from rest_framework.response import Response
+from rest_framework.decorators import action
+
+from .models import Tournament, TournamentTeam
+from .serializers import TournamentSerializer, TournamentTeamSerializer
+from matches.models import Match
+
+class TournamentViewSet(viewsets.ModelViewSet):
+    serializer_class = TournamentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Tournament.objects.filter(owner=self.request.user).order_by('-created_at')
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+class TournamentTeamViewSet(viewsets.ModelViewSet):
+    serializer_class = TournamentTeamSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return TournamentTeam.objects.filter(
+            tournament__owner=self.request.user
+        ).order_by('-added_at')
+
+class PublicTournamentViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = TournamentSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        return Tournament.objects.filter(is_public=True).order_by('-created_at')
+
+    @action(detail=True, methods=['get'], url_path='matches')
+    def matches(self, request, pk=None):
+        matches = Match.objects.filter(
+            tournament_id=pk,
+            tournament__is_public=True,
+        ).select_related('home_team', 'away_team').order_by(-'played_at')
+
+        data = [
+            {
+                'id': match.id,
+                'home_team': match.home_team.name,
+                'away_team': match.away_team.name,
+                'home_score': match.home_score,
+                'away_score': match.away_score,
+                'played_at': match.played_at,
+                'is_finished': match.is_finished,
+            }
+            for match in matches
+        ]
+        return Response(data)
+
+    @action(detail=True, methods=['get'], url_path='standings')
+    def standings(self, request, pk=None):
+        matches = Match.objects.filter(
+            tournament_id=pk,
+            tournament__is_public=True,
+            is_finished=True
+        ).select_related('home_team', 'away_team')
+
+        table = defaultdict(lambda: {
+            'team_id': None,
+            'team_name': '',
+            'played': 0,
+            'wins': 0,
+            'draws': 0,
+            'losses': 0,
+            'goals_for': 0,
+            'goals_against': 0,
+            'goal_difference': 0,
+            'points': 0,
+        })
+
+        for match in matches:
+            home = table[match.home_team_id]
+            away = table[match.away_team_id]
+
+            home['team_id'] = match.home_team_id
+            home['team_name'] = match.home_team.name
+            away['team_id'] = match.away_team_id
+            away['team_name'] = match.away_team.name
+
+            home['played'] += 1
+            away['played'] += 1
+
+            home['goals_for'] += match.home_score
+            home['goals_against'] += match.away_score
+            away['goals_for'] += match.away_score
+            away['goals_against'] += match.home_score
+
+            if match.home_score > match.away_score:
+                home['wins'] += 1
+                home['points'] += 3
+                away['losses'] += 1
+            elif match.home_score < match.away_score:
+                away['wins'] += 1
+                away['points'] += 3
+                home['losses'] += 1
+            else :
+                home['draws'] += 1
+                home['points'] += 1
+                away['draws'] += 1
+                away['points'] += 1
+
+        result = []
+        for item in table.values():
+            item['goal_difference'] = item['goals_for'] - item['goals_against']
+            result.append(item)
+
+        result.sort(
+            key=lambda x: (-x['points'], -x['goal_difference'],-x['goals_for'], x['team_name'])
+        )
+
+        return Response(result)
