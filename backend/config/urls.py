@@ -10,7 +10,7 @@ urlpatterns = [
     path('api/tournaments/', include('tournaments.urls')),
     path('api/matches/', include('matches.urls')),
     path("api/standings/", include("standings.urls")),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

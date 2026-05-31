@@ -2,9 +2,9 @@ from standings.models import Standing
 
 
 def update_standings(match):
-    """Пересчитывает standings для обеих команд после сохранения матча."""
     if match.home_score is None or match.away_score is None:
         return
+    _recalculate_tournament(match.tournament)
 
     tournament = match.tournament
     home_team = match.home_team

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from teams.models import Team
 
+
 class Tournament(models.Model):
     owner = models.ForeignKey(
         User,
@@ -10,16 +11,18 @@ class Tournament(models.Model):
     )
     name = models.CharField(max_length=150)
     description = models.TextField(blank=True)
+    year = models.PositiveIntegerField(null=True, blank=True)
     is_public = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     teams = models.ManyToManyField(
         Team,
         through='TournamentTeam',
         related_name='tournaments'
-        )
+    )
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.year})" if self.year else self.name
+
 
 class TournamentTeam(models.Model):
     tournament = models.ForeignKey(

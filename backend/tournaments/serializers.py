@@ -1,15 +1,22 @@
 from rest_framework import serializers
 from .models import Tournament, TournamentTeam
-from teams.models import Team
+from utils.validators import validate_tournament_year
+
 
 class TournamentSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         model = Tournament
-        fields = ['id', 'name', 'description', 'owner', 'is_public', 'created_at',]
+        fields = ['id', 'name', 'description', 'year', 'owner', 'is_public', 'created_at']
+
+    def validate_year(self, value):
+        if value is not None:
+            return validate_tournament_year(value)
+        return value
+
 
 class TournamentTeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = TournamentTeam
-        fields = ['id', 'tournament', 'team', 'added_at',]
+        fields = ['id', 'tournament', 'team', 'added_at']

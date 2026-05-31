@@ -8,6 +8,7 @@ from .models import Tournament, TournamentTeam
 from .serializers import TournamentSerializer, TournamentTeamSerializer
 from matches.models import Match
 
+
 class TournamentViewSet(viewsets.ModelViewSet):
     serializer_class = TournamentSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -18,6 +19,7 @@ class TournamentViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
+
 class TournamentTeamViewSet(viewsets.ModelViewSet):
     serializer_class = TournamentTeamSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -26,6 +28,7 @@ class TournamentTeamViewSet(viewsets.ModelViewSet):
         return TournamentTeam.objects.filter(
             tournament__owner=self.request.user
         ).order_by('-added_at')
+
 
 class PublicTournamentViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = TournamentSerializer
@@ -39,7 +42,7 @@ class PublicTournamentViewSet(viewsets.ReadOnlyModelViewSet):
         matches = Match.objects.filter(
             tournament_id=pk,
             tournament__is_public=True,
-        ).select_related('home_team', 'away_team').order_by(-'played_at')
+        ).select_related('home_team', 'away_team').order_by('-played_at')  # ← було -'played_at'
 
         data = [
             {
@@ -77,6 +80,9 @@ class PublicTournamentViewSet(viewsets.ReadOnlyModelViewSet):
         })
 
         for match in matches:
+            if match.home_score is None or match.away_score is None:  # ← захист від None
+                continue
+
             home = table[match.home_team_id]
             away = table[match.away_team_id]
 
@@ -101,7 +107,7 @@ class PublicTournamentViewSet(viewsets.ReadOnlyModelViewSet):
                 away['wins'] += 1
                 away['points'] += 3
                 home['losses'] += 1
-            else :
+            else:
                 home['draws'] += 1
                 home['points'] += 1
                 away['draws'] += 1
@@ -113,7 +119,7 @@ class PublicTournamentViewSet(viewsets.ReadOnlyModelViewSet):
             result.append(item)
 
         result.sort(
-            key=lambda x: (-x['points'], -x['goal_difference'],-x['goals_for'], x['team_name'])
+            key=lambda x: (-x['points'], -x['goal_difference'], -x['goals_for'], x['team_name'])
         )
 
         return Response(result)
