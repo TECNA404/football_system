@@ -7,17 +7,17 @@ class Match(models.Model):
     tournament = models.ForeignKey(
         Tournament,
         on_delete=models.CASCADE,
-        related_name='matches'
+        related_name="matches"
     )
     home_team = models.ForeignKey(
         Team,
         on_delete=models.CASCADE,
-        related_name='home_matches'
+        related_name="home_matches"
     )
     away_team = models.ForeignKey(
         Team,
         on_delete=models.CASCADE,
-        related_name='away_matches'
+        related_name="away_matches"
     )
     home_score = models.IntegerField(default=0)
     away_score = models.IntegerField(default=0)
