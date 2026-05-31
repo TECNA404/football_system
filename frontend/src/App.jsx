@@ -19,17 +19,15 @@ import StandingsPage from "./pages/StandingsPage";
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AuthProvider>
         <Navbar />
         <Routes>
-          {/* === ПУБЛІЧНІ — без авторизації === */}
           <Route path="/"                   element={<HomePage />} />
           <Route path="/tournaments/public" element={<PublicTournamentsPage />} />
           <Route path="/login"              element={<LoginPage />} />
           <Route path="/register"           element={<RegisterPage />} />
 
-          {/* === ПРИВАТНІ — потрібна авторизація === */}
           <Route path="/teams" element={
             <ProtectedRoute><TeamsPage /></ProtectedRoute>
           } />
@@ -45,8 +43,8 @@ function App() {
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 
