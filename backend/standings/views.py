@@ -17,9 +17,7 @@ class StandingListView(generics.ListAPIView):
         tournament_id = self.request.query_params.get('tournament')
         if tournament_id:
             qs = qs.filter(tournament_id=tournament_id)
-        return qs.annotate(
-            goal_diff=F('goals_for') - F('goals_against')
-        ).order_by('-points', '-goal_diff', '-goals_for')
+        return qs.order_by('-points', '-goals_for')
 
 class RecalculateStandingsView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -50,10 +48,10 @@ class RecalculateStandingsView(APIView):
             if team.id not in stats:
                 stats[team.id] = {
                     "team": team,
-                    "games_played": 0,
-                    "wins": 0,
-                    "draws": 0,
-                    "losses": 0,
+                    "played": 0,
+                    "won": 0,
+                    "drawn": 0,
+                    "lost": 0,
                     "goals_for": 0,
                     "goals_against": 0,
                     "points": 0,
@@ -64,35 +62,34 @@ class RecalculateStandingsView(APIView):
             home = get_or_create(m.home_team)
             away = get_or_create(m.away_team)
 
-            home["games_played"] += 1
-            away["games_played"] += 1
+            home["played"] += 1
+            away["played"] += 1
             home["goals_for"]     += m.home_score
             home["goals_against"] += m.away_score
             away["goals_for"]     += m.away_score
             away["goals_against"] += m.home_score
 
             if m.home_score > m.away_score:
-                home["wins"]   += 1; home["points"] += 3
-                away["losses"] += 1
+                home["won"]   += 1; home["points"] += 3
+                away["lost"] += 1
             elif m.home_score < m.away_score:
-                away["wins"]   += 1; away["points"] += 3
-                home["losses"] += 1
+                away["won"]   += 1; away["points"] += 3
+                home["lost"] += 1
             else:
-                home["draws"] += 1; home["points"] += 1
-                away["draws"] += 1; away["points"] += 1
+                home["drawn"] += 1; home["points"] += 1
+                away["drawn"] += 1; away["points"] += 1
 
         # Зберігаємо нові standings
         for team_id, s in stats.items():
             Standing.objects.create(
                 tournament_id=tournament_id,
                 team=s["team"],
-                games_played=s["games_played"],
-                wins=s["wins"],
-                draws=s["draws"],
-                losses=s["losses"],
+                played=s["played"],
+                won=s["won"],
+                drawn=s["drawn"],
+                lost=s["lost"],
                 goals_for=s["goals_for"],
                 goals_against=s["goals_against"],
-                goal_difference=s["goals_for"] - s["goals_against"],
                 points=s["points"],
             )
 

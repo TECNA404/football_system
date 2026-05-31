@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../components/AuthContext";
 
 function LoginPage() {
+  const { t } = useTranslation();
   const { login } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ username: "", password: "" });
@@ -29,7 +31,7 @@ function LoginPage() {
       if (data?.detail) {
         setError(data.detail);
       } else {
-        setError("Невірний логін або пароль.");
+        setError(t('auth.error'));
       }
     } finally {
       setLoading(false);
@@ -37,40 +39,66 @@ function LoginPage() {
   };
 
   return (
-    <div className="container mt-5" style={{ maxWidth: 420 }}>
-      <h2 className="mb-4">🔐 Вхід</h2>
-      {error && <div className="alert alert-danger">{error}</div>}
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label">Логін</label>
-          <input
-            className="form-control"
-            name="username"
-            autoComplete="username"
-            value={form.username}
-            onChange={handleChange}
-            required
-          />
+    <div className="container mt-5 animate-fade-in" style={{ maxWidth: 450 }}>
+      <div className="card auth-card shadow-lg border-0">
+        <div className="card-body p-5">
+          <div className="text-center mb-4">
+            <span className="display-4">⚽</span>
+            <h2 className="fw-bold mt-2">{t('auth.login_title')}</h2>
+            <p className="text-muted">Football System</p>
+          </div>
+
+          {error && <div className="alert alert-danger border-0 shadow-sm mb-4">{error}</div>}
+          
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label className="form-label fw-bold text-muted small">{t('auth.username')}</label>
+              <div className="input-group">
+                <span className="input-group-text bg-light border-end-0">👤</span>
+                <input
+                  className="form-control bg-light border-start-0"
+                  name="username"
+                  autoComplete="username"
+                  value={form.username}
+                  onChange={handleChange}
+                  placeholder={t('auth.username')}
+                  required
+                />
+              </div>
+            </div>
+            <div className="mb-4">
+              <label className="form-label fw-bold text-muted small">{t('auth.password')}</label>
+              <div className="input-group">
+                <span className="input-group-text bg-light border-end-0">🔒</span>
+                <input
+                  className="form-control bg-light border-start-0"
+                  type="password"
+                  name="password"
+                  autoComplete="current-password"
+                  value={form.password}
+                  onChange={handleChange}
+                  placeholder="********"
+                  required
+                />
+              </div>
+            </div>
+            <button className="btn btn-primary w-100 py-2 fw-bold shadow-sm" disabled={loading}>
+              {loading ? (
+                <>
+                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  {t('common.loading')}
+                </>
+              ) : t('auth.login_btn')}
+            </button>
+          </form>
+          
+          <div className="mt-4 text-center">
+            <p className="text-muted small">
+              {t('auth.no_account')} <Link to="/register" className="text-primary fw-bold text-decoration-none">{t('auth.register_title')}</Link>
+            </p>
+          </div>
         </div>
-        <div className="mb-3">
-          <label className="form-label">Пароль</label>
-          <input
-            className="form-control"
-            type="password"
-            name="password"
-            autoComplete="current-password"
-            value={form.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button className="btn btn-primary w-100" disabled={loading}>
-          {loading ? "Вхід..." : "Увійти"}
-        </button>
-      </form>
-      <p className="mt-3 text-center">
-        Немає акаунту? <Link to="/register">Реєстрація</Link>
-      </p>
+      </div>
     </div>
   );
 }

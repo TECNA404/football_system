@@ -20,11 +20,26 @@ export const updateTournament = (id, data) => api.patch(`/tournaments/${id}/`, d
 // Видалити турнір
 export const deleteTournament = (id) => api.delete(`/tournaments/${id}/`);
 
+// Особиста статистика користувача
+export const getPersonalStats = () => api.get("/tournaments/personal-stats/");
+
 // ─── Публічні (без реєстрації) ─────────────────────────────────
 
 // Список всіх публічних турнірів
 export const getPublicTournaments = () =>
   publicApi.get("/tournaments/public/");
+
+// Всі публічні матчі
+export const getAllPublicMatches = () =>
+  publicApi.get("/tournaments/public/all-matches/");
+
+// Всі публічні команди
+export const getAllPublicTeams = () =>
+  publicApi.get("/tournaments/public/all-teams/");
+
+// Глобальна статистика
+export const getGlobalStats = () =>
+  publicApi.get("/tournaments/public/global-stats/");
 
 // Матчі публічного турніру
 export const getPublicMatches = (tournamentId) =>

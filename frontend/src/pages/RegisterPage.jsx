@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../components/AuthContext";
 
 function RegisterPage() {
+  const { t, i18n } = useTranslation();
   const { login } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ username: "", password: "", password2: "" });
@@ -18,7 +20,7 @@ function RegisterPage() {
     setError("");
 
     if (form.password !== form.password2) {
-      setError("Паролі не співпадають.");
+      setError(i18n.language === 'uk' ? "Паролі не співпадають." : "Passwords do not match.");
       return;
     }
 
@@ -39,62 +41,92 @@ function RegisterPage() {
       navigate("/");
     } catch (err) {
       const data = err.response?.data;
-      if (data?.username) setError(`Логін: ${data.username[0]}`);
-      else if (data?.password) setError(`Пароль: ${data.password[0]}`);
+      if (data?.username) setError(`${t('auth.username')}: ${data.username[0]}`);
+      else if (data?.password) setError(`${t('auth.password')}: ${data.password[0]}`);
       else if (data?.detail) setError(data.detail);
-      else setError("Помилка реєстрації.");
+      else setError(t('auth.error'));
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="container mt-5" style={{ maxWidth: 420 }}>
-      <h2 className="mb-4">📝 Реєстрація</h2>
-      {error && <div className="alert alert-danger">{error}</div>}
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label">Логін</label>
-          <input
-            className="form-control"
-            name="username"
-            autoComplete="username"
-            value={form.username}
-            onChange={handleChange}
-            required
-          />
+    <div className="container mt-5 animate-fade-in" style={{ maxWidth: 450 }}>
+      <div className="card auth-card shadow-lg border-0">
+        <div className="card-body p-5">
+          <div className="text-center mb-4">
+            <span className="display-4">📝</span>
+            <h2 className="fw-bold mt-2">{t('auth.register_title')}</h2>
+            <p className="text-muted">Football System</p>
+          </div>
+
+          {error && <div className="alert alert-danger border-0 shadow-sm mb-4">{error}</div>}
+          
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label className="form-label fw-bold text-muted small">{t('auth.username')}</label>
+              <div className="input-group">
+                <span className="input-group-text bg-light border-end-0">👤</span>
+                <input
+                  className="form-control bg-light border-start-0"
+                  name="username"
+                  autoComplete="username"
+                  value={form.username}
+                  onChange={handleChange}
+                  placeholder={t('auth.username')}
+                  required
+                />
+              </div>
+            </div>
+            <div className="mb-3">
+              <label className="form-label fw-bold text-muted small">{t('auth.password')}</label>
+              <div className="input-group">
+                <span className="input-group-text bg-light border-end-0">🔒</span>
+                <input
+                  className="form-control bg-light border-start-0"
+                  type="password"
+                  name="password"
+                  autoComplete="new-password"
+                  value={form.password}
+                  onChange={handleChange}
+                  placeholder="********"
+                  required
+                />
+              </div>
+            </div>
+            <div className="mb-4">
+              <label className="form-label fw-bold text-muted small">{i18n.language === 'uk' ? 'Повторіть пароль' : 'Repeat password'}</label>
+              <div className="input-group">
+                <span className="input-group-text bg-light border-end-0">🔒</span>
+                <input
+                  className="form-control bg-light border-start-0"
+                  type="password"
+                  name="password2"
+                  autoComplete="new-password"
+                  value={form.password2}
+                  onChange={handleChange}
+                  placeholder="********"
+                  required
+                />
+              </div>
+            </div>
+            <button className="btn btn-primary w-100 py-2 fw-bold shadow-sm" disabled={loading}>
+              {loading ? (
+                <>
+                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  {t('common.loading')}
+                </>
+              ) : t('auth.register_btn')}
+            </button>
+          </form>
+          
+          <div className="mt-4 text-center">
+            <p className="text-muted small">
+              {t('auth.has_account')} <Link to="/login" className="text-primary fw-bold text-decoration-none">{t('auth.login_title')}</Link>
+            </p>
+          </div>
         </div>
-        <div className="mb-3">
-          <label className="form-label">Пароль</label>
-          <input
-            className="form-control"
-            type="password"
-            name="password"
-            autoComplete="new-password"
-            value={form.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Повторіть пароль</label>
-          <input
-            className="form-control"
-            type="password"
-            name="password2"
-            autoComplete="new-password"
-            value={form.password2}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button className="btn btn-primary w-100" disabled={loading}>
-          {loading ? "Реєстрація..." : "Зареєструватись"}
-        </button>
-      </form>
-      <p className="mt-3 text-center">
-        Вже є акаунт? <Link to="/login">Увійти</Link>
-      </p>
+      </div>
     </div>
   );
 }

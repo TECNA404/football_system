@@ -5,10 +5,11 @@ from utils.validators import validate_tournament_year
 
 class TournamentSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
+    teams = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Tournament
-        fields = ['id', 'name', 'description', 'year', 'owner', 'is_public', 'created_at']
+        fields = ['id', 'name', 'description', 'year', 'owner', 'is_public', 'created_at', 'teams']
 
     def validate_year(self, value):
         if value is not None:
