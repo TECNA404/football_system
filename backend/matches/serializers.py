@@ -1,23 +1,13 @@
 from rest_framework import serializers
-from .models import Match
-from tournaments.models import Tournament
-from teams.models import Team
+
+from matches.models import Match
+from utils.validators import validate_match_teams, validate_match_score
 
 
 class MatchSerializer(serializers.ModelSerializer):
-    tournament = serializers.PrimaryKeyRelatedField(
-        queryset=Tournament.objects.all()
-    )
-    home_team = serializers.PrimaryKeyRelatedField(
-        queryset=Team.objects.all()
-    )
-    away_team = serializers.PrimaryKeyRelatedField(
-        queryset=Team.objects.all()
-    )
-
-    tournament_name = serializers.ReadOnlyField(source="tournament.name")
-    home_team_name = serializers.ReadOnlyField(source="home_team.name")
-    away_team_name = serializers.ReadOnlyField(source="away_team.name")
+    tournament_name = serializers.CharField(source="tournament.name", read_only=True)
+    home_team_name = serializers.CharField(source="home_team.name", read_only=True)
+    away_team_name = serializers.CharField(source="away_team.name", read_only=True)
 
     class Meta:
         model = Match
@@ -35,34 +25,15 @@ class MatchSerializer(serializers.ModelSerializer):
             "is_finished",
             "created_at",
         ]
-        read_only_fields = [
-            "id",
-            "tournament_name",
-            "home_team_name",
-            "away_team_name",
-            "created_at",
-        ]
 
     def validate(self, attrs):
-        request = self.context["request"]
-        tournament = attrs["tournament"]
-        home_team = attrs["home_team"]
-        away_team = attrs["away_team"]
+        home_team = attrs.get("home_team", getattr(self.instance, "home_team", None))
+        away_team = attrs.get("away_team", getattr(self.instance, "away_team", None))
+        home_score = attrs.get("home_score", getattr(self.instance, "home_score", None))
+        away_score = attrs.get("away_score", getattr(self.instance, "away_score", None))
+        is_finished = attrs.get("is_finished", getattr(self.instance, "is_finished", False))
 
-        if tournament.owner != request.user:
-            raise serializers.ValidationError("You can only use your own tournaments.")
-
-        if home_team.owner != request.user or away_team.owner != request.user:
-            raise serializers.ValidationError("You can only use your own teams.")
-
-        if home_team == away_team:
-            raise serializers.ValidationError("Home team and away team must be different.")
-
-        tournament_team_ids = set(tournament.teams.values_list("id", flat=True))
-        if home_team.id not in tournament_team_ids or away_team.id not in tournament_team_ids:
-            raise serializers.ValidationError("Both teams must belong to the selected tournament.")
-
-        if attrs["home_score"] < 0 or attrs["away_score"] < 0:
-            raise serializers.ValidationError("Scores cannot be negative.")
+        validate_match_teams(home_team, away_team)
+        validate_match_score(home_score, away_score, is_finished)
 
         return attrs
