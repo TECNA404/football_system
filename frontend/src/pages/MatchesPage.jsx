@@ -87,16 +87,21 @@ function MatchesPage() {
     });
   };
 
-  const handleScoreSave = async () => {
-    const loadingToast = toast.loading(t("common.loading"));
-    const res = await handleUpdateMatch(editingMatch.id, scoreForm);
-    if (res.success) {
-      toast.success(t("common.save"), { id: loadingToast });
-      setEditingMatch(null);
-    } else {
-      toast.error(res.error || t("common.error"), { id: loadingToast });
-    }
-  };
+const handleScoreSave = async () => {
+  const loadingToast = toast.loading(t("common.loading"));
+  const res = await handleUpdateMatch(editingMatch.id, {
+    home_score: Number(scoreForm.home_score),
+    away_score: Number(scoreForm.away_score),
+    is_finished: true,
+  });
+
+  if (res.success) {
+    toast.success(t("common.save"), { id: loadingToast });
+    setEditingMatch(null);
+  } else {
+    toast.error(res.error || t("common.error"), { id: loadingToast });
+  }
+};
 
   const handleDelete = async (id) => {
     if (

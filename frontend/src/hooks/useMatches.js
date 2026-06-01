@@ -52,16 +52,21 @@ export const useMatches = (tournamentId = null) => {
     };
 
     const handleUpdateMatch = async (id, updateData) => {
-        try {
-            await updateMatch(id, updateData);
-            await loadMatches();
-            return { success: true };
-        } catch (err) {
-            const message = getApiErrorMessage(err, i18n.language === 'uk' ? "Помилка при оновленні матчу." : "Error updating match.");
-            setError(message);
-            return { success: false, error: message };
-        }
-    };
+    try {
+        const response = await updateMatch(id, updateData);
+        setMatches(prev =>
+            prev.map(m => m.id === id ? { ...m, ...updateData, ...(response.data || {}) } : m)
+        );
+        return { success: true };
+    } catch (err) {
+        const message = getApiErrorMessage(
+            err,
+            i18n.language === 'uk' ? "Помилка при оновленні матчу." : "Error updating match."
+        );
+        setError(message);
+        return { success: false, error: message };
+    }
+};
 
     const handleDeleteMatch = async (id) => {
         if (!globalThis.confirm(i18n.language === 'uk' ? "Видалити матч?" : "Delete match?")) return { success: false };

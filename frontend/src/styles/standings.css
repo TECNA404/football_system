@@ -105,3 +105,112 @@
 [data-theme='dark'] .standing-logo-container {
   background: #1f2937 !important;
 }
+.custom-table {
+  --standings-row-bg: rgba(255, 255, 255, 0.82);
+  --standings-row-hover: rgba(25, 135, 84, 0.08);
+  --standings-border: rgba(15, 23, 42, 0.06);
+  --standings-text: #0f172a;
+  --standings-muted: #64748b;
+  --standings-head-bg: var(--header-gradient);
+  --standings-head-text: #ffffff;
+
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--standings-text);
+  --bs-table-border-color: transparent;
+  --bs-table-hover-bg: transparent;
+  --bs-table-hover-color: var(--standings-text);
+  margin-bottom: 0;
+}
+
+.custom-table > :not(caption) > * > * {
+  background-color: transparent !important;
+  color: inherit !important;
+  box-shadow: none !important;
+}
+
+.custom-table thead th {
+  border: none;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  background: var(--standings-head-bg) !important;
+  color: var(--standings-head-text) !important;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  white-space: nowrap;
+}
+
+.custom-table tbody tr {
+  background: var(--standings-row-bg);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.custom-table tbody tr:hover {
+  background: var(--standings-row-hover) !important;
+  transform: translateY(-1px);
+}
+
+.custom-table tbody td {
+  border-bottom: 1px solid var(--standings-border);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  color: var(--standings-text);
+  vertical-align: middle;
+}
+
+.custom-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+[data-theme='dark'] .custom-table {
+  --standings-row-bg: rgba(17, 24, 39, 0.92);
+  --standings-row-hover: rgba(31, 41, 55, 1);
+  --standings-border: rgba(255, 255, 255, 0.07);
+  --standings-text: #f8fafc;
+  --standings-muted: #94a3b8;
+
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--standings-text);
+  --bs-table-border-color: transparent;
+  --bs-table-hover-bg: transparent;
+  --bs-table-hover-color: var(--standings-text);
+}
+
+[data-theme='dark'] .custom-table thead th {
+  background: linear-gradient(135deg, #0f766e 0%, #134e4a 100%) !important;
+  color: #f8fafc !important;
+}
+
+[data-theme='dark'] .custom-table tbody tr {
+  background: var(--standings-row-bg) !important;
+}
+
+[data-theme='dark'] .custom-table tbody tr:hover {
+  background: var(--standings-row-hover) !important;
+}
+
+[data-theme='dark'] .custom-table tbody td {
+  color: var(--standings-text) !important;
+  border-bottom-color: var(--standings-border) !important;
+}
+
+[data-theme='dark'] .custom-table a,
+[data-theme='dark'] .custom-table .standing-team-name {
+  color: #f8fafc !important;
+}
+
+[data-theme='dark'] .custom-table .text-muted {
+  color: #9ca3af !important;
+}
+.custom-table thead th:first-child {
+  border-top-left-radius: 1rem;
+}
+
+.custom-table thead th:last-child {
+  border-top-right-radius: 1rem;
+}
+
+[data-theme='dark'] .table-responsive {
+  background: transparent;
+}

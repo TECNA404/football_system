@@ -2,16 +2,22 @@ class LogoURLMixin:
     @staticmethod
     def format_logo_url(team, request=None):
         if team and team.logo:
-            # If it's a full URL, return it
-            if team.logo.startswith('http'):
-                return team.logo
-            
-            # If it's a relative path (old data or local upload)
-            if request:
-                return request.build_absolute_uri(f"/media/{team.logo}")
-            return f"/media/{team.logo}"
-        return "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=200&h=200&auto=format&fit=crop"
+            logo = team.logo.strip()
 
+            if logo.startswith("http://") or logo.startswith("https://"):
+                return logo
+
+            if logo.startswith("/media/"):
+                return request.build_absolute_uri(logo) if request else logo
+
+            if logo.startswith("media/"):
+                logo = f"/{logo}"
+                return request.build_absolute_uri(logo) if request else logo
+
+            logo = f"/media/{logo.lstrip('/')}"
+            return request.build_absolute_uri(logo) if request else logo
+
+        return "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=200&h=200&auto=format&fit=crop"
     @staticmethod
     def format_coach_photo_url(coach, request=None):
         if coach and coach.photo:
