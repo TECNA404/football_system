@@ -1,0 +1,435 @@
+/* =========================
+   UNIFIED DARK THEME (improved)
+   add at the VERY END of App.css
+   ========================= */
+
+[data-theme='dark'] {
+  --primary-color: #34d399;
+  --secondary-color: #22c55e;
+  --secondary-soft: #163a2b;
+  --accent-color: #f4b942;
+
+  --bg-light: #08130f;
+  --bg-soft: #0d1b16;
+  --bg-card: rgba(16, 30, 24, 0.88);
+
+  --text-dark: #ecfdf5;
+  --text-soft: #d1ddd7;
+
+  --line-soft: rgba(226, 232, 240, 0.08);
+  --line-green: rgba(52, 211, 153, 0.22);
+
+  --header-gradient: linear-gradient(135deg, #0b2f23 0%, #14532d 55%, #1f7a46 100%);
+  --hero-green-glow: rgba(34, 197, 94, 0.22);
+  --hero-gold-glow: rgba(244, 185, 66, 0.12);
+
+  --card-shadow: 0 16px 36px rgba(0, 0, 0, 0.34);
+  --card-shadow-hover: 0 22px 46px rgba(0, 0, 0, 0.42);
+
+  --bg-white: #10201a;
+  --glass-bg: rgba(12, 24, 20, 0.82);
+}
+
+[data-theme='dark'] body {
+  background:
+    radial-gradient(circle at top left, rgba(34, 197, 94, 0.08), transparent 26%),
+    radial-gradient(circle at bottom right, rgba(244, 185, 66, 0.05), transparent 22%),
+    linear-gradient(180deg, #08130f 0%, #091611 45%, #0d1b16 100%);
+  color: var(--text-dark);
+}
+
+[data-theme='dark'] .home-page-shell {
+  background:
+    radial-gradient(circle at top left, rgba(34, 197, 94, 0.10), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(244, 185, 66, 0.06), transparent 24%),
+    linear-gradient(180deg, #08130f 0%, #0a1712 40%, #0d1b16 100%);
+  color: var(--text-dark);
+}
+
+[data-theme='dark'] .hero-section-light {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(34, 197, 94, 0.18) 0%, transparent 30%),
+    radial-gradient(circle at 88% 82%, rgba(244, 185, 66, 0.10) 0%, transparent 24%),
+    linear-gradient(180deg, #0b1712 0%, #10201a 100%);
+}
+
+[data-theme='dark'] .grid-overlay-light {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+}
+
+/* ОСВЕТЛЁННЫЕ СЕРЫЕ НАДПИСИ */
+[data-theme='dark'] .hero-subtitle,
+[data-theme='dark'] .text-muted,
+[data-theme='dark'] .text-secondary,
+[data-theme='dark'] .small,
+[data-theme='dark'] small,
+[data-theme='dark'] .form-text,
+[data-theme='dark'] .nav-tabs .nav-link,
+[data-theme='dark'] .dropdown-item,
+[data-theme='dark'] .list-group-item {
+  color: #dbe7e1 !important;
+}
+
+[data-theme='dark'] .navbar,
+[data-theme='dark'] .glass-nav {
+  background: rgba(8, 19, 15, 0.88) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme='dark'] .card,
+[data-theme='dark'] .modal-content,
+[data-theme='dark'] .stats-card,
+[data-theme='dark'] .table-modern,
+[data-theme='dark'] .tournament-card-public,
+[data-theme='dark'] .match-card-public,
+[data-theme='dark'] .coach-card,
+[data-theme='dark'] .player-card {
+  background: linear-gradient(180deg, rgba(16, 32, 26, 0.96) 0%, rgba(12, 24, 20, 0.98) 100%) !important;
+  color: var(--text-dark);
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  box-shadow: var(--card-shadow);
+}
+
+[data-theme='dark'] .card:hover,
+[data-theme='dark'] .hover-up:hover,
+[data-theme='dark'] .tournament-card-public:hover,
+[data-theme='dark'] .match-card-public:hover,
+[data-theme='dark'] .hover-card:hover {
+  box-shadow: var(--card-shadow-hover) !important;
+  border-color: rgba(52, 211, 153, 0.18) !important;
+}
+
+[data-theme='dark'] .glass-card-light,
+[data-theme='dark'] .stats-strip-light {
+  background: linear-gradient(180deg, rgba(18, 34, 28, 0.82) 0%, rgba(11, 23, 18, 0.88) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+[data-theme='dark'] .stat-mini-card,
+[data-theme='dark'] .team-logo-shell,
+[data-theme='dark'] .score-pill,
+[data-theme='dark'] .player-soft-block,
+[data-theme='dark'] .coach-soft-block,
+[data-theme='dark'] .player-about-box,
+[data-theme='dark'] .coach-philosophy-box,
+[data-theme='dark'] .coach-license-box {
+  background: linear-gradient(180deg, #12231d 0%, #0e1c17 100%) !important;
+  border: 1px solid rgba(52, 211, 153, 0.12) !important;
+  color: var(--text-dark);
+}
+
+[data-theme='dark'] .bg-light,
+[data-theme='dark'] .bg-white {
+  background-color: #12231d !important;
+  color: var(--text-dark) !important;
+}
+
+[data-theme='dark'] .bg-primary.bg-opacity-5,
+[data-theme='dark'] .bg-primary.bg-opacity-10,
+[data-theme='dark'] .bg-primary-light,
+[data-theme='dark'] .bg-success-soft {
+  background: rgba(34, 197, 94, 0.10) !important;
+  color: var(--text-dark) !important;
+}
+
+[data-theme='dark'] .border-primary,
+[data-theme='dark'] .border-secondary-subtle,
+[data-theme='dark'] .border-accent {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+[data-theme='dark'] .btn-primary {
+  background: linear-gradient(135deg, #14532d 0%, #22c55e 100%) !important;
+  border: none;
+  color: #f0fdf4 !important;
+  box-shadow: 0 10px 24px rgba(34, 197, 94, 0.22);
+}
+
+[data-theme='dark'] .btn-primary:hover {
+  background: linear-gradient(135deg, #166534 0%, #34d399 100%) !important;
+  box-shadow: 0 14px 28px rgba(34, 197, 94, 0.28);
+}
+
+[data-theme='dark'] .btn-outline-success,
+[data-theme='dark'] .btn-outline-primary,
+[data-theme='dark'] .player-back-btn,
+[data-theme='dark'] .coach-back-btn {
+  background: rgba(18, 34, 28, 0.82) !important;
+  color: #d1fae5 !important;
+  border: 1px solid rgba(52, 211, 153, 0.18) !important;
+}
+
+[data-theme='dark'] .btn-outline-success:hover,
+[data-theme='dark'] .btn-outline-primary:hover,
+[data-theme='dark'] .player-back-btn:hover,
+[data-theme='dark'] .coach-back-btn:hover {
+  background: rgba(34, 197, 94, 0.14) !important;
+  color: #ffffff !important;
+  border-color: rgba(52, 211, 153, 0.28) !important;
+}
+
+[data-theme='dark'] .btn-accent,
+[data-theme='dark'] .bg-accent,
+[data-theme='dark'] .player-number-badge,
+[data-theme='dark'] .coach-badge-accent,
+[data-theme='dark'] .player-badge-accent {
+  background: linear-gradient(135deg, #f4b942 0%, #f59e0b 100%) !important;
+  color: #111827 !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+[data-theme='dark'] .badge.bg-white,
+[data-theme='dark'] .player-badge-light,
+[data-theme='dark'] .coach-badge-light {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #d1fae5 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+[data-theme='dark'] .text-primary,
+[data-theme='dark'] .text-accent-green,
+[data-theme='dark'] .player-text-green,
+[data-theme='dark'] .coach-text-green,
+[data-theme='dark'] .player-icon-green,
+[data-theme='dark'] .coach-icon-green,
+[data-theme='dark'] .group:hover .group-hover-primary {
+  color: #4ade80 !important;
+}
+
+[data-theme='dark'] .table,
+[data-theme='dark'] .custom-table {
+  color: #e5fff2;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme='dark'] .table thead th,
+[data-theme='dark'] .table-modern thead th,
+[data-theme='dark'] .custom-table thead th {
+  background: #12231d !important;
+  color: #f4b942 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+[data-theme='dark'] .table td,
+[data-theme='dark'] .table th,
+[data-theme='dark'] .custom-table tbody td {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+  color: #e5fff2 !important;
+}
+
+[data-theme='dark'] .table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(255, 255, 255, 0.015);
+}
+
+[data-theme='dark'] .table-hover tbody tr:hover,
+[data-theme='dark'] .match-card:hover {
+  background-color: rgba(52, 211, 153, 0.06) !important;
+}
+
+[data-theme='dark'] .form-control,
+[data-theme='dark'] .form-select,
+[data-theme='dark'] textarea {
+  background-color: #12231d !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #f0fdf4 !important;
+}
+
+[data-theme='dark'] .form-control::placeholder,
+[data-theme='dark'] textarea::placeholder {
+  color: #b9c9c2 !important;
+}
+
+[data-theme='dark'] .form-control:focus,
+[data-theme='dark'] .form-select:focus,
+[data-theme='dark'] textarea:focus {
+  background-color: #152a22 !important;
+  border-color: rgba(52, 211, 153, 0.32) !important;
+  box-shadow: 0 0 0 0.25rem rgba(34, 197, 94, 0.16) !important;
+  color: #ffffff !important;
+}
+
+[data-theme='dark'] .dropdown-menu,
+[data-theme='dark'] .accordion-item,
+[data-theme='dark'] .list-group-item {
+  background-color: #10201a !important;
+  color: #e5fff2 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+[data-theme='dark'] .dropdown-item {
+  color: #e5fff2 !important;
+}
+
+[data-theme='dark'] .dropdown-item:hover {
+  background-color: rgba(52, 211, 153, 0.10) !important;
+  color: #ffffff !important;
+}
+
+[data-theme='dark'] .accordion-button {
+  background-color: #12231d !important;
+  color: #f8fffb !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+[data-theme='dark'] .accordion-button:not(.collapsed) {
+  background-color: #10201a !important;
+  color: #f4b942 !important;
+  box-shadow: none;
+}
+
+[data-theme='dark'] .nav-tabs {
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+[data-theme='dark'] .nav-tabs .nav-link.active {
+  background-color: #10201a !important;
+  color: #f4b942 !important;
+  border-color: rgba(255, 255, 255, 0.08) rgba(255, 255, 255, 0.08) #10201a !important;
+}
+
+[data-theme='dark'] .alert-danger {
+  background: rgba(220, 38, 38, 0.12);
+  border-color: rgba(239, 68, 68, 0.18);
+  color: #fecaca;
+}
+
+[data-theme='dark'] .text-gradient {
+  background: linear-gradient(135deg, #86efac 0%, #34d399 55%, #f4b942 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme='dark'] .player-hero,
+[data-theme='dark'] .bg-gradient-premium,
+[data-theme='dark'] .hero-section,
+[data-theme='dark'] .player-hero {
+  background: linear-gradient(135deg, #0d261d 0%, #14532d 45%, #1f7a46 100%) !important;
+}
+
+[data-theme='dark'] .score-badge {
+  background: #08110d !important;
+  color: #f4b942 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+[data-theme='dark'] .score-badge.finished {
+  background: #14532d !important;
+  color: #f0fdf4 !important;
+}
+
+[data-theme='dark'] .match-team-logo,
+[data-theme='dark'] .match-team-logo-large,
+[data-theme='dark'] .team-logo-circle,
+[data-theme='dark'] .player-team-logo,
+[data-theme='dark'] .coach-team-logo {
+  background: #12231d !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+[data-theme='dark'] .page-header {
+  border-bottom-color: var(--accent-color) !important;
+}
+[data-theme='dark'] {
+  --text-soft: #d4e0da; /* глобальний "сірий" тепер на 90% до білого */
+}
+
+/* ВСІ типові muted / secondary / маленькі написи */
+[data-theme='dark'] .text-muted,
+[data-theme='dark'] .text-secondary,
+[data-theme='dark'] .small,
+[data-theme='dark'] small,
+[data-theme='dark'] .form-text,
+[data-theme='dark'] .badge.bg-light,
+[data-theme='dark'] .badge.bg-white {
+  color: #dbe7e1 !important;
+}
+
+/* заголовки секцій + card-title, щоб не були темно-сірими */
+[data-theme='dark'] h1,
+[data-theme='dark'] h2,
+[data-theme='dark'] h3,
+[data-theme='dark'] h4,
+[data-theme='dark'] h5,
+[data-theme='dark'] h6,
+[data-theme='dark'] .card-title,
+[data-theme='dark'] .section-title,
+[data-theme='dark'] .page-title {
+  color: #f9fafb !important;
+}
+
+/* тексти всередині карток / блоків (типові "чому обирають нас" тощо) */
+[data-theme='dark'] .card p,
+[data-theme='dark'] .card .text-muted,
+[data-theme='dark'] .card .small,
+[data-theme='dark'] .stats-card p,
+[data-theme='dark'] .tournament-card-public p,
+[data-theme='dark'] .match-card-public p {
+  color: #e3efe9 !important;
+}
+
+/* навігація, таби, дропдауни, списки */
+[data-theme='dark'] .nav-link,
+[data-theme='dark'] .nav-tabs .nav-link,
+[data-theme='dark'] .dropdown-item,
+[data-theme='dark'] .list-group-item,
+[data-theme='dark'] .breadcrumb,
+[data-theme='dark'] .breadcrumb-item {
+  color: #dbe7e1 !important;
+}
+
+/* інпути, плейсхолдери, підписи */
+[data-theme='dark'] .form-control,
+[data-theme='dark'] .form-select,
+[data-theme='dark'] textarea {
+  color: #f0fdf4 !important;
+}
+
+[data-theme='dark'] .form-control::placeholder,
+[data-theme='dark'] textarea::placeholder {
+  color: #c3d0c9 !important;
+}
+
+/* дрібні тексти в таблицях */
+[data-theme='dark'] .table,
+[data-theme='dark'] .table td,
+[data-theme='dark'] .table th,
+[data-theme='dark'] .custom-table,
+[data-theme='dark'] .custom-table td,
+[data-theme='dark'] .custom-table th {
+  color: #e5fff2 !important;
+}
+
+/* якщо десь ще лишились дуже темні написи */
+[data-theme='dark'] .text-gray,
+[data-theme='dark'] .text-gray-500,
+[data-theme='dark'] .text-gray-600,
+[data-theme='dark'] .text-body-secondary {
+  color: #dbe7e1 !important;
+}
+/* TABLES & CARDS FULL DARK OVERRIDE */
+[data-theme='dark'] .table-modern,
+[data-theme='dark'] .table-modern tbody,
+[data-theme='dark'] .table-modern tr,
+[data-theme='dark'] .table-modern td,
+[data-theme='dark'] .table-modern th {
+  background-color: #0f1c16 !important;
+  color: #e5fff2 !important;
+}
+
+[data-theme='dark'] .table-modern thead th {
+  background-color: #12231d !important;
+}
+
+/* верхній “банер” турніру */
+[data-theme='dark'] .bg-gradient-premium,
+[data-theme='dark'] .hero-section,
+[data-theme='dark'] .player-hero {
+  background: linear-gradient(135deg, #0c241b 0%, #14532d 45%, #1f7a46 100%) !important;
+}

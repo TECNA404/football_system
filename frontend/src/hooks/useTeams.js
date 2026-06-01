@@ -3,6 +3,7 @@ import {
     getTeams, createTeam, deleteTeam, updateTeam, updateTeamName, updateTeamDescription,
     createCoach, updateCoach, addPlayer, updatePlayer, deletePlayer 
 } from "../api/teamsApi";
+import { getApiErrorMessage } from "../utils/apiUtils";
 
 export const useTeams = () => {
     const [teams, setTeams] = useState([]);
@@ -33,8 +34,7 @@ export const useTeams = () => {
             await loadTeams();
             return { success: true };
         } catch (err) {
-            const data = err.response?.data;
-            const message = data?.name?.[0] || data?.detail || "Помилка при створенні.";
+            const message = getApiErrorMessage(err, "Помилка при створенні.");
             setError(message);
             return { success: false, error: message };
         } finally {
@@ -59,8 +59,7 @@ export const useTeams = () => {
             await loadTeams();
             return { success: true };
         } catch (err) {
-            const data = err.response?.data;
-            const message = data?.logo?.[0] || data?.detail || "Помилка при оновленні логотипу.";
+            const message = getApiErrorMessage(err, "Помилка при оновленні логотипу.");
             setError(message);
             return { success: false, error: message };
         }
@@ -72,8 +71,9 @@ export const useTeams = () => {
             await loadTeams();
             return { success: true };
         } catch (err) {
-            setError("Помилка при оновленні назви.");
-            return { success: false };
+            const message = getApiErrorMessage(err, "Помилка при оновленні назви.");
+            setError(message);
+            return { success: false, error: message };
         }
     };
     
@@ -83,8 +83,9 @@ export const useTeams = () => {
             await loadTeams();
             return { success: true };
         } catch (err) {
-            setError("Помилка при оновленні опису.");
-            return { success: false };
+            const message = getApiErrorMessage(err, "Помилка при оновленні опису.");
+            setError(message);
+            return { success: false, error: message };
         }
     };
 

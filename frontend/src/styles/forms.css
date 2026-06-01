@@ -1,0 +1,29 @@
+.auth-card {
+  border-top: 5px solid var(--accent-color);
+}
+
+.form-control:focus {
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.25);
+}
+
+.btn-warning {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.btn-warning:hover {
+  background-color: #e6c200;
+  border-color: #e6c200;
+  color: var(--primary-color);
+}
+
+.bg-warning-light {
+  background-color: rgba(255, 215, 0, 0.15);
+}
+
+.bg-primary-light {
+  background-color: rgba(26, 71, 42, 0.1);
+}

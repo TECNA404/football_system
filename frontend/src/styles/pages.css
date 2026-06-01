@@ -1,0 +1,14 @@
+.hero-section {
+  padding: 80px 0;
+  background: var(--header-gradient);
+  color: white;
+  margin-bottom: 40px;
+  border-radius: 0 0 50% 50% / 10%;
+}
+
+.page-header {
+  border-bottom: 2px solid var(--accent-color);
+  display: inline-block;
+  padding-bottom: 5px;
+  margin-bottom: 25px;
+}

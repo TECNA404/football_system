@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { getMatches, createMatch, updateMatch, deleteMatch } from "../api/matchesApi";
+import { getApiErrorMessage } from "../utils/apiUtils";
 
 export const useMatches = (tournamentId = null) => {
     const { i18n } = useTranslation();
@@ -34,23 +35,15 @@ export const useMatches = (tournamentId = null) => {
         setLoading(true);
         try {
             await createMatch({
-                tournament: parseInt(matchData.tournament),
-                home_team: parseInt(matchData.home_team),
-                away_team: parseInt(matchData.away_team),
+                tournament: Number.parseInt(matchData.tournament),
+                home_team: Number.parseInt(matchData.home_team),
+                away_team: Number.parseInt(matchData.away_team),
                 played_at: new Date(matchData.played_at).toISOString(),
             });
             await loadMatches();
             return { success: true };
         } catch (err) {
-            const data = err.response?.data;
-            let message = i18n.language === 'uk' ? "Помилка при створенні матчу." : "Error creating match.";
-            if (data) {
-                if (typeof data === 'object') {
-                   message = Object.values(data).flat().join(' ');
-                } else {
-                   message = JSON.stringify(data);
-                }
-            }
+            const message = getApiErrorMessage(err, i18n.language === 'uk' ? "Помилка при створенні матчу." : "Error creating match.");
             setError(message);
             return { success: false, error: message };
         } finally {
@@ -64,28 +57,20 @@ export const useMatches = (tournamentId = null) => {
             await loadMatches();
             return { success: true };
         } catch (err) {
-            const data = err.response?.data;
-            let message = i18n.language === 'uk' ? "Помилка при оновленні матчу." : "Error updating match.";
-            if (data) {
-                if (typeof data === 'object') {
-                    message = Object.values(data).flat().join(' ');
-                } else {
-                    message = JSON.stringify(data);
-                }
-            }
+            const message = getApiErrorMessage(err, i18n.language === 'uk' ? "Помилка при оновленні матчу." : "Error updating match.");
             setError(message);
             return { success: false, error: message };
         }
     };
 
     const handleDeleteMatch = async (id) => {
-        if (!window.confirm(i18n.language === 'uk' ? "Видалити матч?" : "Delete match?")) return { success: false };
+        if (!globalThis.confirm(i18n.language === 'uk' ? "Видалити матч?" : "Delete match?")) return { success: false };
         try {
             await deleteMatch(id);
             await loadMatches();
             return { success: true };
         } catch (err) {
-            const message = i18n.language === 'uk' ? "Помилка при видаленні матчу." : "Error deleting match.";
+            const message = getApiErrorMessage(err, i18n.language === 'uk' ? "Помилка при видаленні матчу." : "Error deleting match.");
             setError(message);
             return { success: false, error: message };
         }

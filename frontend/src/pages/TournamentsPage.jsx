@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useTournaments } from "../hooks/useTournaments";
 import { formatDateOnly } from "../utils/formatters";
+import { confirmAction } from "../utils/uiUtils";
 
 function TournamentsPage() {
   const { t, i18n } = useTranslation();
@@ -81,14 +82,13 @@ function TournamentsPage() {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm(t('common.delete') + "?")) {
-        const loadingToast = toast.loading(t('common.loading'));
-        const res = await handleDeleteTournament(id);
-        if (res.success) {
-            toast.success(t('common.delete'), { id: loadingToast });
-        } else {
-            toast.error(res.error || t('common.error'), { id: loadingToast });
-        }
+    if (!confirmAction(t('common.delete') + "?")) return;
+    const loadingToast = toast.loading(t('common.loading'));
+    const res = await handleDeleteTournament(id);
+    if (res.success) {
+        toast.success(t('common.delete'), { id: loadingToast });
+    } else {
+        toast.error(res.error || t('common.error'), { id: loadingToast });
     }
   };
 

@@ -1,12 +1,13 @@
 import React from "react";
 import { deleteTeam } from "../api/teamsApi";
+import { confirmAction } from "../utils/uiUtils";
 
 const FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%23e9ecef'/%3E%3Ctext x='50%25' y='55%25' font-size='20' text-anchor='middle' dominant-baseline='middle'%3E⚽%3C/text%3E%3C/svg%3E";
 function TeamList({ teams, onRefresh }) {
   const handleDelete = async (id) => {
-    if (!window.confirm("Видалити команду?")) return;
+    if (!confirmAction("Видалити команду?")) return;
     await deleteTeam(id);
-    onRefresh && onRefresh();
+    onRefresh?.();
   };
 
   if (!teams || teams.length === 0)

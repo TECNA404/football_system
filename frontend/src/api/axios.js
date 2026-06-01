@@ -1,7 +1,9 @@
 import axios from "axios";
 
+export const BASE_URL = "http://127.0.0.1:8000/api";
+
 const api = axios.create({
-  baseURL: "http://127.0.0.1:8000/api",
+  baseURL: BASE_URL,
 });
 
 api.interceptors.request.use((config) => {
@@ -19,7 +21,7 @@ api.interceptors.response.use(
       try {
         const refresh = localStorage.getItem("refresh");
         const res = await axios.post(
-          "http://127.0.0.1:8000/api/users/token/refresh/",
+          `${BASE_URL}/users/token/refresh/`,
           { refresh }
         );
         localStorage.setItem("access", res.data.access);
@@ -29,16 +31,16 @@ api.interceptors.response.use(
         localStorage.removeItem("access");
         localStorage.removeItem("refresh");
         localStorage.removeItem("username");
-        window.location.href = "/login";
+        globalThis.location.href = "/login";
       }
     }
-    return Promise.reject(error);
+    throw error;
   }
 );
 
 // Публічний клієнт — без токена
 export const publicApi = axios.create({
-  baseURL: "http://127.0.0.1:8000/api",
+  baseURL: BASE_URL,
 });
 
 export default api;

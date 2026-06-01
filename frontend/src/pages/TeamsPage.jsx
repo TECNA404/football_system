@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { useTeams } from "../hooks/useTeams";
 import { formatDateOnly } from "../utils/formatters";
 import { handleImageError, getPlaceholder } from "../utils/imageUtils";
+import { confirmAction } from "../utils/uiUtils";
 
 function TeamsPage() {
     const { t, i18n } = useTranslation();
@@ -101,15 +102,14 @@ function TeamsPage() {
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm(t('common.delete') + "?")) {
-            const loadingToast = toast.loading(t('common.loading'));
-            const res = await handleDeleteTeam(id);
-            if (res.success) {
-                toast.success(t('common.delete'), { id: loadingToast });
-            } else {
-                toast.error(t('common.error'), { id: loadingToast });
-            }
-        }
+        if (!confirmAction(t('common.delete') + "?")) return;
+    const loadingToast = toast.loading(t('common.loading'));
+    const res = await handleDeleteTeam(id);
+    if (res.success) {
+        toast.success(t('common.delete'), { id: loadingToast });
+    } else {
+        toast.error(t('common.error'), { id: loadingToast });
+    }
     };
 
     const onLogoUpdate = async (id, file) => {

@@ -1,10 +1,4 @@
-import api from "./axios";
-import axios from "axios";
-
-// Публічний клієнт — без токена, для перегляду без реєстрації
-const publicApi = axios.create({
-  baseURL: "http://127.0.0.1:8000/api",
-});
+import api, { publicApi } from "./axios";
 
 // ─── Приватні (потрібна авторизація) ───────────────────────────
 

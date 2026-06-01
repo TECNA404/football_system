@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { getApiErrorMessage } from '../utils/apiUtils';
 
 export const useApi = (apiFunc) => {
   const [data, setData] = useState(null);
@@ -13,7 +14,7 @@ export const useApi = (apiFunc) => {
       setData(response.data);
       return { success: true, data: response.data };
     } catch (err) {
-      const message = err.response?.data ? JSON.stringify(err.response.data) : err.message;
+      const message = getApiErrorMessage(err, "Помилка мережі.");
       setError(message);
       return { success: false, error: message };
     } finally {

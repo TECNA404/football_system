@@ -1,0 +1,205 @@
+/* Dark mode support for football application */
+[data-theme='dark'] {
+  --bg-light: #b6c1da;
+  --text-dark: #f8fafc;
+  --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  --secondary-color: #1e293b;
+  --bg-white: #111827;
+  --accent-color: #fbbf24;
+  --primary-color: #064e3b;
+  --glass-bg: rgba(17, 24, 39, 0.8);
+}
+
+[data-theme='dark'] body {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+}
+
+[data-theme='dark'] .card, [data-theme='dark'] .modal-content {
+  background-color: var(--bg-white);
+  color: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme='dark'] .bg-light {
+  background-color: #1f2937 !important;
+}
+
+[data-theme='dark'] .text-muted {
+  color: #94a3b8 !important;
+}
+
+[data-theme='dark'] .table {
+  color: #e2e8f0;
+  border-color: #374151;
+}
+
+[data-theme='dark'] .table thead th {
+  background-color: #1f2937;
+  color: var(--accent-color);
+  border-bottom: 2px solid #374151;
+}
+
+[data-theme='dark'] .table-modern {
+  background: var(--bg-white);
+  border: 1px solid #374151;
+}
+
+[data-theme='dark'] .table-modern thead {
+  background: #1f2937;
+  color: var(--accent-color);
+}
+
+[data-theme='dark'] .table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+[data-theme='dark'] .table-hover:hover, [data-theme='dark'] .table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: white;
+}
+
+[data-theme='dark'] .table td, [data-theme='dark'] .table th {
+  border-top-color: #374151;
+  color: #e2e8f0;
+}
+
+[data-theme='dark'] .form-control, [data-theme='dark'] .form-select {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: white;
+}
+
+[data-theme='dark'] .form-control:focus, [data-theme='dark'] .form-select:focus {
+  background-color: #1f2937;
+  border-color: var(--accent-color);
+  color: white;
+}
+
+[data-theme='dark'] .input-group-text {
+  background-color: #111827;
+  border-color: #374151;
+  color: #94a3b8;
+}
+
+[data-theme='dark'] .match-card:hover, [data-theme='dark'] .match-card-public:hover {
+  background-color: #1f2937 !important;
+  border-color: var(--accent-color) !important;
+}
+
+[data-theme='dark'] .score-badge {
+  background: #000;
+  border: 1px solid #334155;
+}
+
+[data-theme='dark'] .score-badge.finished {
+  background: #064e3b;
+  color: #fff;
+}
+
+[data-theme='dark'] .glass-nav {
+  background: rgba(10, 15, 26, 0.8) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+[data-theme='dark'] .btn-light {
+  background-color: #374151;
+  border-color: #4b5563;
+  color: white;
+}
+
+[data-theme='dark'] .btn-light:hover {
+  background-color: #4b5563;
+}
+
+[data-theme='dark'] .tournament-card-public {
+  background-color: var(--bg-white);
+}
+
+[data-theme='dark'] .rank-badge {
+  background: #1f2937;
+  color: #cbd5e1;
+  border-color: #374151;
+}
+
+[data-theme='dark'] .rank-1 {
+  background: #451a03;
+  color: #fbbf24;
+  border-color: #78350f;
+}
+
+[data-theme='dark'] .rank-top {
+  background: #0c4a6e;
+  color: #7dd3fc;
+  border-color: #075985;
+}
+
+[data-theme='dark'] .match-team-logo-large, [data-theme='dark'] .match-team-logo {
+  background: #374151;
+  border-color: #4b5563;
+}
+
+[data-theme='dark'] .btn-outline-warning {
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+[data-theme='dark'] .btn-outline-warning:hover {
+  background-color: var(--accent-color);
+  color: #000;
+}
+
+[data-theme='dark'] .text-warning {
+  color: var(--accent-color) !important;
+}
+
+[data-theme='dark'] .border-warning {
+  border-color: var(--accent-color) !important;
+}
+
+[data-theme='dark'] .card-title, [data-theme='dark'] .h1, [data-theme='dark'] .h2, [data-theme='dark'] .h3, [data-theme='dark'] .h4, [data-theme='dark'] .h5, [data-theme='dark'] .h6, [data-theme='dark'] h1, [data-theme='dark'] h2, [data-theme='dark'] h3, [data-theme='dark'] h4, [data-theme='dark'] h5, [data-theme='dark'] h6 {
+  color: #fff;
+}
+
+[data-theme='dark'] .modal-header, [data-theme='dark'] .modal-footer {
+  border-color: #374151;
+}
+
+[data-theme='dark'] .list-group-item {
+  background-color: transparent;
+  color: #e2e8f0;
+  border-color: #374151;
+}
+
+[data-theme='dark'] .nav-tabs {
+  border-bottom-color: #374151;
+}
+
+[data-theme='dark'] .nav-tabs .nav-link {
+  color: #94a3b8;
+}
+
+[data-theme='dark'] .nav-tabs .nav-link.active {
+  background-color: var(--bg-white);
+  border-color: #374151 #374151 var(--bg-white);
+  color: var(--accent-color);
+}
+
+[data-theme='dark'] .nav-tabs .nav-link:hover:not(.active) {
+  border-color: transparent;
+  color: #fff;
+}
+
+[data-theme='dark'] .badge {
+  color: #fff;
+}
+
+[data-theme='dark'] .badge.bg-light {
+  background-color: #374151 !important;
+  color: #fff !important;
+}
+
+[data-theme='dark'] .btn-link {
+  color: var(--accent-color);
+}

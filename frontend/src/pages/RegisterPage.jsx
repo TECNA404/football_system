@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import { publicApi } from "../api/axios";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../components/AuthContext";
+import { getApiErrorMessage } from "../utils/apiUtils";
 
 function RegisterPage() {
   const { t, i18n } = useTranslation();
@@ -27,24 +28,20 @@ function RegisterPage() {
     setLoading(true);
     try {
       // Реєстрація
-      await axios.post("http://127.0.0.1:8000/api/users/register/", {
+      await publicApi.post("/users/register/", {
         username: form.username,
         password: form.password,
       });
 
       // Автологін після реєстрації
-      const res = await axios.post("http://127.0.0.1:8000/api/users/token/", {
+      const res = await publicApi.post("/users/token/", {
         username: form.username,
         password: form.password,
       });
       login(res.data.access, res.data.refresh, form.username);
       navigate("/");
     } catch (err) {
-      const data = err.response?.data;
-      if (data?.username) setError(`${t('auth.username')}: ${data.username[0]}`);
-      else if (data?.password) setError(`${t('auth.password')}: ${data.password[0]}`);
-      else if (data?.detail) setError(data.detail);
-      else setError(t('auth.error'));
+      setError(getApiErrorMessage(err, t('auth.error')));
     } finally {
       setLoading(false);
     }

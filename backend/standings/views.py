@@ -4,8 +4,7 @@ from rest_framework.response import Response
 from .models import Standing
 from .serializers import StandingSerializer
 from matches.models import Match
-from teams.models import Team
-from django.db.models import F
+from utils.standings_utils import aggregate_standing_stats
 
 
 class StandingListView(generics.ListAPIView):
@@ -41,56 +40,19 @@ class RecalculateStandingsView(APIView):
             away_score__isnull=False,
         )
 
-        # Збираємо статистику по кожній команді
-        stats = {}
+        stats = aggregate_standing_stats(matches)
 
-        def get_or_create(team):
-            if team.id not in stats:
-                stats[team.id] = {
-                    "team": team,
-                    "played": 0,
-                    "won": 0,
-                    "drawn": 0,
-                    "lost": 0,
-                    "goals_for": 0,
-                    "goals_against": 0,
-                    "points": 0,
-                }
-            return stats[team.id]
-
-        for m in matches:
-            home = get_or_create(m.home_team)
-            away = get_or_create(m.away_team)
-
-            home["played"] += 1
-            away["played"] += 1
-            home["goals_for"]     += m.home_score
-            home["goals_against"] += m.away_score
-            away["goals_for"]     += m.away_score
-            away["goals_against"] += m.home_score
-
-            if m.home_score > m.away_score:
-                home["won"]   += 1; home["points"] += 3
-                away["lost"] += 1
-            elif m.home_score < m.away_score:
-                away["won"]   += 1; away["points"] += 3
-                home["lost"] += 1
-            else:
-                home["drawn"] += 1; home["points"] += 1
-                away["drawn"] += 1; away["points"] += 1
-
-        # Зберігаємо нові standings
-        for team_id, s in stats.items():
+        for data in stats.values():
             Standing.objects.create(
                 tournament_id=tournament_id,
-                team=s["team"],
-                played=s["played"],
-                won=s["won"],
-                drawn=s["drawn"],
-                lost=s["lost"],
-                goals_for=s["goals_for"],
-                goals_against=s["goals_against"],
-                points=s["points"],
+                team=data['team'],
+                played=data['played'],
+                won=data['won'],
+                drawn=data['drawn'],
+                lost=data['lost'],
+                goals_for=data['goals_for'],
+                goals_against=data['goals_against'],
+                points=data['points'],
             )
 
         count = Standing.objects.filter(tournament_id=tournament_id).count()

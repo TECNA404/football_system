@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { createTournament } from "../api/tournamentsApi";
+import { getApiErrorMessage } from "../utils/apiUtils";
 
 function TournamentForm({ onCreated }) {
   const [form, setForm] = useState({ name: "", year: "", description: "", is_public: false });
@@ -18,15 +19,14 @@ function TournamentForm({ onCreated }) {
     try {
       await createTournament({
         name: form.name,
-        year: form.year ? parseInt(form.year) : null,
+        year: form.year ? Number.parseInt(form.year) : null,
         description: form.description || "",
         is_public: form.is_public,
       });
       setForm({ name: "", year: "", description: "", is_public: false });
       onCreated && onCreated();
     } catch (err) {
-      const data = err.response?.data;
-      setError(data?.name?.[0] || data?.year?.[0] || "Помилка при створенні.");
+      setError(getApiErrorMessage(err, "Помилка при створенні."));
     } finally {
       setLoading(false);
     }

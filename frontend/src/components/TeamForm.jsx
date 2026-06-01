@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { createTeam } from "../api/teamsApi";
+import { getApiErrorMessage } from "../utils/apiUtils";
 
 function TeamForm({ onCreated }) {
   const [name, setName] = useState("");
@@ -25,8 +26,7 @@ function TeamForm({ onCreated }) {
       setPreview(null);
       onCreated && onCreated();
     } catch (err) {
-      const data = err.response?.data;
-      setError(data?.name?.[0] || "Помилка при створенні команди.");
+      setError(getApiErrorMessage(err, "Помилка при створенні команди."));
     } finally {
       setLoading(false);
     }

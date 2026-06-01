@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import { publicApi } from "../api/axios";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../components/AuthContext";
+import { getApiErrorMessage } from "../utils/apiUtils";
 
 function LoginPage() {
   const { t } = useTranslation();
@@ -20,19 +21,11 @@ function LoginPage() {
     setError("");
     setLoading(true);
     try {
-      const res = await axios.post(
-        "http://127.0.0.1:8000/api/users/token/",
-        form
-      );
+      const res = await publicApi.post("/users/token/", form);
       login(res.data.access, res.data.refresh, form.username);
       navigate("/");
     } catch (err) {
-      const data = err.response?.data;
-      if (data?.detail) {
-        setError(data.detail);
-      } else {
-        setError(t('auth.error'));
-      }
+      setError(getApiErrorMessage(err, t('auth.error')));
     } finally {
       setLoading(false);
     }

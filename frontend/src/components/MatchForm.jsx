@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getTeams } from "../api/teamsApi";
 import { createMatch } from "../api/matchesApi";
+import { getApiErrorMessage } from "../utils/apiUtils";
 
 function MatchForm({ tournamentId, onCreated }) {
   const [teams, setTeams] = useState([]);
@@ -35,10 +36,10 @@ function MatchForm({ tournamentId, onCreated }) {
     try {
       await createMatch({
         tournament: tournamentId,
-        home_team: parseInt(form.home_team),
-        away_team: parseInt(form.away_team),
-        home_score: form.home_score !== "" ? parseInt(form.home_score) : null,
-        away_score: form.away_score !== "" ? parseInt(form.away_score) : null,
+        home_team: Number.parseInt(form.home_team),
+        away_team: Number.parseInt(form.away_team),
+        home_score: form.home_score !== "" ? Number.parseInt(form.home_score) : null,
+        away_score: form.away_score !== "" ? Number.parseInt(form.away_score) : null,
         played_at: form.played_at,
         is_finished: form.is_finished,
       });
@@ -49,14 +50,7 @@ function MatchForm({ tournamentId, onCreated }) {
       });
       onCreated && onCreated();
     } catch (err) {
-      const data = err.response?.data;
-      setError(
-        data?.non_field_errors?.[0] ||
-        data?.home_team?.[0] ||
-        data?.away_team?.[0] ||
-        data?.played_at?.[0] ||
-        "Помилка при створенні матчу."
-      );
+      setError(getApiErrorMessage(err, "Помилка при створенні матчу."));
     } finally {
       setLoading(false);
     }

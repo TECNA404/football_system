@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { handleImageError, getPlaceholder } from "../utils/imageUtils";
+import { getApiErrorMessage } from "../utils/apiUtils";
 import { useTeams } from "../hooks/useTeams";
 import { toast } from "react-hot-toast";
 import { useAuth } from "../components/AuthContext";
@@ -36,7 +37,7 @@ function CoachDetailPage() {
       setCoach(res.data);
       setEditDescription(res.data.description || "");
     } catch (err) {
-      setError(t("common.error"));
+      setError(getApiErrorMessage(err, t("common.error")));
     } finally {
       setLoading(false);
     }

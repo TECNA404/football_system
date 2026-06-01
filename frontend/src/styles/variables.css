@@ -1,0 +1,17 @@
+:root {
+  --primary-color: #064e3b; /* Deep football pitch green */
+  --secondary-color: #10b981; /* Fresh grass green */
+  --accent-color: #fbbf24; /* Golden trophy */
+  --bg-light: #f8fafc;
+  --text-dark: #0f172a;
+  --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  --header-gradient: linear-gradient(135deg, #064e3b 0%, #10b981 100%);
+  --glass-bg: rgba(255, 255, 255, 0.8);
+}
+
+body {
+  background-color: var(--bg-light);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+}

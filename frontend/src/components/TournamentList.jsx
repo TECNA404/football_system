@@ -1,11 +1,12 @@
 import React from "react";
 import { deleteTournament } from "../api/tournamentsApi";
+import { confirmAction } from "../utils/uiUtils";
 
 function TournamentList({ tournaments, onRefresh, onSelect, selectedId }) {
   const handleDelete = async (id) => {
-    if (!window.confirm("Видалити турнір і всі його матчі?")) return;
+    if (!confirmAction("Видалити турнір і всі його матчі?")) return;
     await deleteTournament(id);
-    onRefresh && onRefresh();
+    onRefresh?.();
   };
 
   if (!tournaments || tournaments.length === 0)

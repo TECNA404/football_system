@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { updateMatch, deleteMatch } from "../api/matchesApi";
+import { confirmAction } from "../utils/uiUtils";
 
 function MatchList({ matches, onRefresh }) {
   const [editId, setEditId] = useState(null);
@@ -24,21 +25,21 @@ function MatchList({ matches, onRefresh }) {
   const handleSave = async (id) => {
     try {
       await updateMatch(id, {
-        home_score: editForm.home_score !== "" ? parseInt(editForm.home_score) : null,
-        away_score: editForm.away_score !== "" ? parseInt(editForm.away_score) : null,
+        home_score: editForm.home_score !== "" ? Number.parseInt(editForm.home_score) : null,
+        away_score: editForm.away_score !== "" ? Number.parseInt(editForm.away_score) : null,
         is_finished: editForm.is_finished,
       });
       setEditId(null);
-      onRefresh && onRefresh();
+      onRefresh?.();
     } catch {
       setError("Помилка збереження.");
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Видалити матч?")) return;
+    if (!confirmAction("Видалити матч?")) return;
     await deleteMatch(id);
-    onRefresh && onRefresh();
+    onRefresh?.();
   };
 
   if (!matches || matches.length === 0)

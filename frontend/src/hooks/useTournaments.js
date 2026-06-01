@@ -7,6 +7,7 @@ import {
   deleteTournament,
   getPublicTournaments,
 } from "../api/tournamentsApi";
+import { getApiErrorMessage } from "../utils/apiUtils";
 
 export const useTournaments = () => {
   const { i18n } = useTranslation();
@@ -36,24 +37,14 @@ export const useTournaments = () => {
     try {
       await createTournament({
         name: tournamentData.name,
-        year: tournamentData.year ? parseInt(tournamentData.year) : null,
+        year: tournamentData.year ? Number.parseInt(tournamentData.year) : null,
         description: tournamentData.description || "",
         is_public: tournamentData.is_public,
       });
       await loadTournaments();
       return { success: true };
     } catch (err) {
-      const data = err.response?.data;
-      let message = i18n.language === 'uk' ? "Помилка при створенні." : "Error creating tournament.";
-      if (data) {
-        if (typeof data === 'object') {
-          message = Object.entries(data)
-            .map(([key, val]) => `${key}: ${Array.isArray(val) ? val.join(' ') : val}`)
-            .join(' | ');
-        } else {
-          message = JSON.stringify(data);
-        }
-      }
+      const message = getApiErrorMessage(err, i18n.language === 'uk' ? "Помилка при створенні." : "Error creating tournament.");
       setError(message);
       return { success: false, error: message };
     } finally {
@@ -65,38 +56,28 @@ export const useTournaments = () => {
     try {
       await updateTournament(id, {
         name: tournamentData.name,
-        year: tournamentData.year ? parseInt(tournamentData.year) : null,
+        year: tournamentData.year ? Number.parseInt(tournamentData.year) : null,
         description: tournamentData.description || "",
         is_public: tournamentData.is_public,
       });
       await loadTournaments();
       return { success: true };
     } catch (err) {
-      const data = err.response?.data;
-      let message = i18n.language === 'uk' ? "Помилка збереження." : "Save error.";
-      if (data) {
-        if (typeof data === 'object') {
-          message = Object.entries(data)
-            .map(([key, val]) => `${key}: ${Array.isArray(val) ? val.join(' ') : val}`)
-            .join(' | ');
-        } else {
-          message = JSON.stringify(data);
-        }
-      }
+      const message = getApiErrorMessage(err, i18n.language === 'uk' ? "Помилка збереження." : "Save error.");
       return { success: false, error: message };
     }
   };
 
   const handleDeleteTournament = async (id) => {
-    if (!window.confirm(i18n.language === 'uk' ? "Видалити турнір і всі його матчі?" : "Delete tournament and all its matches?")) return { success: false };
+    if (!globalThis.confirm(i18n.language === 'uk' ? "Видалити турнір і всі його матчі?" : "Delete tournament and all its matches?")) return { success: false };
     try {
       await deleteTournament(id);
       await loadTournaments();
       return { success: true };
     } catch (err) {
-      const msg = i18n.language === 'uk' ? "Помилка при видаленні." : "Error deleting.";
-      setError(msg);
-      return { success: false, error: msg };
+      const message = getApiErrorMessage(err, i18n.language === 'uk' ? "Помилка при видаленні." : "Error deleting.");
+      setError(message);
+      return { success: false, error: message };
     }
   };
 

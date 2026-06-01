@@ -1,0 +1,55 @@
+.tournament-card {
+  border-left: 5px solid var(--secondary-color);
+}
+
+.badge-finished {
+  background-color: #6c757d;
+}
+
+.badge-live {
+  background-color: #d32f2f;
+  animation: pulse 2s infinite;
+}
+
+.score-badge.finished {
+  background: #2e7d32;
+  color: white;
+  border: 1px solid #1a472a;
+}
+
+.score-badge.live {
+  background: #d32f2f;
+  color: white;
+  border: 1px solid #b71c1c;
+  animation: pulse 2s infinite;
+}
+
+.match-card {
+  transition: all 0.2s ease;
+  border-left: 4px solid transparent;
+}
+
+.match-card:hover {
+  border-left: 4px solid var(--secondary-color);
+  background-color: #fafafa;
+}
+
+.hover-up {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-up:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.12) !important;
+}
+
+.hover-card {
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.hover-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+  border-color: var(--secondary-color);
+}
