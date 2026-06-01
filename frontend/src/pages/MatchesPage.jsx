@@ -243,7 +243,7 @@ function MatchesPage() {
             {/* Filter Card */}
             <div className="glass-card rounded-4 p-4 border shadow-premium">
               <h6 className="fw-black mb-4 d-flex align-items-center gap-2">
-                <Filter size={18} /> {t('common.filters')}
+                <Filter size={18} />
               </h6>
               <div className="d-flex flex-column gap-3">
                 <div className="input-group border rounded-3 overflow-hidden shadow-sm">
@@ -405,7 +405,7 @@ function MatchesPage() {
                              </button>
                           </div>
                           <Link to={`/tournaments`} className="text-decoration-none small text-muted hover-primary fw-bold">
-                            {t('matches.view_standing')} →
+                            →→→
                           </Link>
                         </div>
                       </div>
